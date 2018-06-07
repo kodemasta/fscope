@@ -24,7 +24,7 @@ export class FractalConfig {
     private zConstant = math.complex(-1.0, 0);
 
     /** The complex starting origin used during iteration **/
-    public zOrigin = math.complex(0, 0);
+    public zInit = math.complex(0, 0);
 
     public originalFractalRegion;
 
@@ -45,7 +45,6 @@ export class FractalConfig {
         return this.maxIterations = max;
     }
 
-
     public getConstant() {
         return this.zConstant;
     }
@@ -54,6 +53,13 @@ export class FractalConfig {
         return this.zConstant = zConstant;
     }
 
+    public getInitZ() {
+        return this.zInit;
+    }
+
+    public setInitZ(zInit) {
+        return this.zInit = zInit;
+    }
     public getMaxIterations() {
         return this.maxIterations;
     }

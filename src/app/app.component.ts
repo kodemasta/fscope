@@ -18,6 +18,8 @@ import * as $ from 'jquery'
 import * as math from 'mathjs';
 import { ColorType } from './fractal/color.type';
 
+
+
 /**
  * App Component
  * Top Level Component
@@ -42,6 +44,8 @@ export class AppComponent implements OnInit {
 
     private cRe;
     private cIm;
+    private zRe;
+    private zIm;
     private region: Rectangle = new Rectangle(0,0,0,0);
     private computing = false;
     private computingJulia = false;
@@ -90,9 +94,11 @@ export class AppComponent implements OnInit {
     onColorTypeChanged() {
         console.log("color type changed: " + this.selectedColorType);
         this.colorFunc = ColorFactory.createColor(this.selectedColorType);
+        this.mainFractalImage.setColorFunc(this.colorFunc);
         setTimeout(() => {
             //this will be executed in the next cycle
-            this.initFractals();
+            this.renderFractal(this.mainFractalImage, <HTMLCanvasElement>document.getElementById("fractal-image"), null);
+
         });
     }
 
@@ -142,6 +148,8 @@ export class AppComponent implements OnInit {
         this.region = this.mainFractalImage.getFractal().getConfig().getFractalRegion();
         this.escapeRadius = this.mainFractalImage.getFractal().getConfig().getEscapeRadius();
         this.maxIterations = this.mainFractalImage.getFractal().getConfig().getMaxIterations();
+        this.zRe = this.mainFractalImage.getFractal().getConfig().getInitZ().re;
+        this.zIm = this.mainFractalImage.getFractal().getConfig().getInitZ().im;
         this.renderFractal(this.mainFractalImage, canvas, null);
     }
 
@@ -184,6 +192,7 @@ export class AppComponent implements OnInit {
         if (event.keyCode === 13) {
             //TODO store original region
           
+            this.mainFractalImage.getFractal().getConfig().zInit = math.complex(this.zRe, this.zIm);
             this.mainFractalImage.getFractal().getConfig().setMaxIterations(this.maxIterations);
             this.mainFractalImage.getFractal().getConfig().setEscapeRadius(this.escapeRadius);
             this.renderFractal(this.mainFractalImage, <HTMLCanvasElement>document.getElementById("fractal-image"), null);

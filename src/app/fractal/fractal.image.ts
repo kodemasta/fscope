@@ -7,6 +7,7 @@ import * as math from 'mathjs'
 import { IterationType } from './iteration.type';
 //import { FractalColor } from './fractal.color';
 
+import * as Jpeg from 'jpeg-js';
 
 export class FractalImage {
 
@@ -64,27 +65,17 @@ export class FractalImage {
     }
 
     public generate(imageData, width, height) {
-        debugger
         let julia = this.getFractal().getConfig().getIterationType() == IterationType.JULIA ? true : false;
         let maxIterations = this.getFractal().getConfig().getMaxIterations();
         let escapeRadius = this.getFractal().getConfig().getEscapeRadius();
-        //let config: FractalConfig = this.fractal.getConfig();
         let kConvertPixelToRealAxis = this.fractal.getConfig().getFractalRegion().width / width;
         let kConvertPixelToImagAxis = this.fractal.getConfig().getFractalRegion().height / height;
 
-        //final int maxIterations = this.iterableFractal.getInfo().config.getMaxIterations();
-        //let fractalRegion = this.fractal.getConfig().getFractalRegion();
         let minY = this.fractal.getConfig().getFractalRegion().y;
         let minX = this.fractal.getConfig().getFractalRegion().x;
-        //iterationHistogramTotal = 0;
-        //for (int i = 0; i < maxIterations; ++i)
-        //	this.iterationHistogram[i] = 0;
-        // determine number of iterations for each fractal pixel on complex
-        // plane.
-        // outer loop iterates over imaginary axis of specified region
 
         let c = this.fractal.getConfig().getConstant();
-        let z = this.fractal.getConfig().zOrigin;
+        let z = this.fractal.getConfig().zInit;
         let off = 0;
         this.notFound = true;
 
@@ -92,25 +83,19 @@ export class FractalImage {
         if (!julia) {
             // mandelbrot iteration
             for (let pixelY = 0; pixelY < height; pixelY++) {
-                //console.log('row ' + pixelY);
+                // console.log('row ' + pixelY);
                 // convert pixel y coordinate to imaginary component of zConstant, cy
                 c.im = kConvertPixelToImagAxis * pixelY + minY; //top
                 // inner loop iterates over real axis of specified region
                 for (let pixelX = 0; pixelX < width; pixelX++) {
                     // convert pixel x coordinate to real component of zConstant, cx
                     c.re = kConvertPixelToRealAxis * pixelX + minX; //left
-                    //z = math.complex(this.fractalConfig.zOrigin);
                     let p:number[] = this.fractal.iterate(z, c, maxIterations, escapeRadius);
                     var color = this.colorFunc(maxIterations, p[0], p[1], p[2]);
                     imageData.data[off++] = color[0];
                     imageData.data[off++] = color[1];
                     imageData.data[off++] = color[2];
                     imageData.data[off++] = 255;
-                    // if (!!this.notFound && (!!p && p[0]>testLimit)){
-                        
-                    //     this.notFound = false;
-                    // }
-
                 }
             }
         } else {
@@ -123,27 +108,23 @@ export class FractalImage {
                 for (let pixelX = 0; pixelX < width; pixelX++) {
                     // convert pixel x coordinate to real component of zConstant, cx
                     z.re = kConvertPixelToRealAxis * pixelX + minX; //left
-                    //c = math.complex(this.fractalConfig.zConstant);
                     let p = this.fractal.iterate(z, c, maxIterations, escapeRadius);
                     var color = this.colorFunc(maxIterations, p[0], p[1], p[2]);
-
                     imageData.data[off++] = color[0];
                     imageData.data[off++] = color[1];
                     imageData.data[off++] = color[2];
                     imageData.data[off++] = 255;
-
-                    // if (!!this.notFound && (!!p && p[0]>testLimit)){
-                        
-                    //     this.notFound = false;
-                    // }
                 }
             }
         }
 
-        //		for (int i = 0; i < maxIterations; ++i)
-        //			if (this.iterationHistogram[i] > 0)
-        //				System.out.println("histogram " + i + " " +this.iterationHistogram[i]);
-
+        var rawImageData = {
+            data: imageData,
+            width: width,
+            height: height
+          };
+          var jpegImageData = Jpeg.encode(rawImageData, 50);
+          debugger
         return true;
     }
 }

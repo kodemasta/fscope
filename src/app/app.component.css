@@ -6,3 +6,13 @@ html, body{
 a.active {
   background-color: gray;
 } */
+
+.fractal-element {
+  margin-top:0px;
+  margin-bottom: 5px;
+}
+
+.fractal-element2 {
+  margin-left:0px;
+  margin-right: 5px;
+}

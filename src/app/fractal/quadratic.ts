@@ -9,10 +9,13 @@ export class Quadratic implements FractalEquation {
 
     fractalType:FractalType;
     fractalConfig:FractalConfig;
+    maxIterations;
+    escapeRadius;
 
     constructor(fractalConfig:FractalConfig) {
         this.fractalType = FractalType.QUADRATIC;
         this.fractalConfig = fractalConfig;
+      
     }
 
     getConfig() {

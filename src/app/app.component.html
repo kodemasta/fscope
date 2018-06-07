@@ -43,8 +43,8 @@ Your browser does not support the HTML5 canvas tag.</canvas> -->
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <span class="text-info">Iteration: </span>
-                                            <div class="select" (change)='onIterationTypeChanged()'>
+                                            <span class="text-info fractal-element">Iteration: </span>
+                                            <div class="select fractal-element" (change)='onIterationTypeChanged()'>
                                                 <select [(ngModel)]='selectedIterationType'>
                                                     <option *ngFor="let type of iterationTypes" [value]="type">{{getIterationType(type)}}</option>
                                                 </select>
@@ -52,8 +52,8 @@ Your browser does not support the HTML5 canvas tag.</canvas> -->
                                         </td>
 
                                         <td>
-                                            <span class="text-info">Equation:</span>
-                                            <div class="select" (change)='onFractalChanged()'>
+                                            <span class="text-info fractal-element">Equation:</span>
+                                            <div class="select fractal-element" (change)='onFractalChanged()'>
                                                 <select [(ngModel)]='selectedFractalType'>
                                                     <option *ngFor="let fractalType of fractalTypes" [value]="fractalType">{{getFractalType(fractalType)}}</option>
                                                 </select>
@@ -62,8 +62,8 @@ Your browser does not support the HTML5 canvas tag.</canvas> -->
                                     </tr>
                                     <tr>
                                         <td>
-                                            <span class="text-info">Color: </span>
-                                            <div class="select" (change)='onColorTypeChanged()'>
+                                            <span class="text-info fractal-element">Color: </span>
+                                            <div class="select fractal-element" (change)='onColorTypeChanged()'>
                                                 <select [(ngModel)]='selectedColorType'>
                                                     <option *ngFor="let type of colorTypes" [value]="type">{{getColorType(type)}}</option>
                                                 </select>
@@ -73,104 +73,82 @@ Your browser does not support the HTML5 canvas tag.</canvas> -->
                                 </tbody>
                             </table>
                         </div>
+                        <form class="form-inline">
+                            <div class="form-group">
+                                <table width="100%">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <span class="text-info fractal-element">z(real)-init:</span>
+                                                <input id="x_re_input" type="number" class="form-control-plaintext fractal-element" (keydown)="handleKeyDown2($event)" [ngModelOptions]="{standalone: true}"
+                                                    [(ngModel)]="zRe">
+                                            </td>
+                                            <td width="50px">
+                                                <span class="text-info fractal-element">z(imag)-init:</span>
+                                                <input id="x_im_input" type="number" class="form-control-plaintext fractal-element" (keydown)="handleKeyDown2($event)" [ngModelOptions]="{standalone: true}"
+                                                    [(ngModel)]="zIm">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span class="text-info fractal-element">max iterations:</span>
+                                                <input style="width:50px" id="max_iter_input" type="number" class="form-control-plaintext fractal-element" (keydown)="handleKeyDown2($event)"
+                                                    [ngModelOptions]="{standalone: true}" [(ngModel)]="maxIterations">
+                                            </td>
+                                            <td>
+                                                <span class="text-info fractal-element">escape radius:</span>
+                                                <input style="width:50px" id="escape" type="number" class="form-control-plaintext fractal-element" (keydown)="handleKeyDown2($event)"
+                                                    [ngModelOptions]="{standalone: true}" [(ngModel)]="escapeRadius">
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </form>
                     </div>
                     <div *ngIf="selectedIterationType==1" class="panel panel-default" id="julia-picker">
                         <div class="panel-heading">
-                            <form class="form-inline">
-                                <div class="form-group">
-                                    Julia Selector - Click around fractal image to generate new Julia Sets!
-                                    <div>x-org:
-                                        <input id="c_re_input" type="number" class="form-control-plaintext" (keydown)="handleKeyDown($event)" [ngModelOptions]="{standalone: true}"
-                                            [(ngModel)]="cRe">
-                                    </div>
-                                    <div>y-org:
-                                        <input id="c_im_input" type="number" class="form-control-plaintext" (keydown)="handleKeyDown($event)" [ngModelOptions]="{standalone: true}"
-                                            [(ngModel)]="cIm">
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="panel-body" style="text-align:center;">
-                            <!-- <div id="canvasesdiv" style="position:relative; width:400px; height:300px">
-                                    <canvas id="layer1" style="z-index: 1;
-                                            position:absolute;
-                                            left:0px;
-                                            top:0px;
-                                            " height="300px" width="400">
-                                        This text is displayed if your browser does not support HTML5 Canvas.
-                                    </canvas>
-                                    <canvas id="layer2" style="z-index: 2;
-                                            position:absolute;
-                                            left:0px;
-                                            top:0px;
-                                            " height="300px" width="400">
-                                        This text is displayed if your browser does not support HTML5 Canvas.
-                                    </canvas> -->
-                            <canvas id="julia-picker-image" width="256" height="256" style="text-align:center;" (click)='onJuliaPickerImageClicked($event)'></canvas>
-                        </div>
-                    </div>
-                    <div *ngIf="true" class="panel panel-default" id="fractal-info">
-                        <div class="panel-heading">
+                            Julia Selector - Click around fractal image to generate new Julia Sets!</div>
+                        <div class="panel-body">
                             <form class="form-inline">
                                 <div class="form-group">
                                     <table width="100%">
                                         <tbody>
                                             <tr>
                                                 <td>
-
-                                                    x-left:
-                                                        <input id="region_x_input" type="number" class="form-control-plaintext" (keydown)="handleKeyDownRegion($event)" [ngModelOptions]="{standalone: true}"
-                                                            [(ngModel)]="region.x">
+                                                    <span class="text-info fractal-element">c(real):</span>
                                                 </td>
                                                 <td>
-                                                    y-top:
-                                                        <input id="region_y_input" type="number" class="form-control-plaintext" (keydown)="handleKeyDownRegion($event)" [ngModelOptions]="{standalone: true}"
-                                                            [(ngModel)]="region.y">
+                                                    <input id="c_re_input" type="number" class="form-control-plaintext fractal-element" (keydown)="handleKeyDown($event)" [ngModelOptions]="{standalone: true}"
+                                                        [(ngModel)]="cRe">
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    dims:
-                                                        <input id="region_dim_input" type="number" class="form-control-plaintext" (keydown)="handleKeyDownRegion($event)" [ngModelOptions]="{standalone: true}"
-                                                            [(ngModel)]="region.width">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    x-org:
-                                                    <input id="x_re_input" type="number" class="form-control-plaintext"
-                                                        (keydown)="handleKeyDown($event)" [ngModelOptions]="{standalone: true}"
-                                                        [(ngModel)]="zRe">
-                                                </td>
-                                                <td width="50px">
-                                                    y-org:
-                                                    <input id="x_im_input" type="number" class="form-control-plaintext"
-                                                        (keydown)="handleKeyDown($event)" [ngModelOptions]="{standalone: true}"
-                                                        [(ngModel)]="zIm">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    max iterations:
-                                                    <input style="width:50px" id="max_iter_input" type="number" class="form-control-plaintext"
-                                                        (keydown)="handleKeyDown2($event)" [ngModelOptions]="{standalone: true}"
-                                                        [(ngModel)]="maxIterations">
+                                                    <span class="text-info fractal-element">c(imag):</span>
                                                 </td>
                                                 <td>
-                                                    escape radius:
-                                                    <input style="width:50px" id="escape" type="number" class="form-control-plaintext"
-                                                        (keydown)="handleKeyDown2($event)" [ngModelOptions]="{standalone: true}"
-                                                        [(ngModel)]="escapeRadius">
+                                                    <input id="c_im_input" type="number" class="form-control-plaintext fractal-element" (keydown)="handleKeyDown($event)" [ngModelOptions]="{standalone: true}"
+                                                        [(ngModel)]="cIm">
                                                 </td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
                             </form>
+                            <div style="text-align:center;" class="fractal-element">
+                                <canvas id="julia-picker-image" width="256" height="256" style="text-align:center;" (click)='onJuliaPickerImageClicked($event)'></canvas>
+                            </div>
                         </div>
+                    </div>
+
+                </div>
+                <!-- <div *ngIf="true" class="panel panel-default" id="fractal-info">
+                    <div class="panel-heading">
 
                     </div>
-                </div>
+
+                </div> -->
             </div>
             <div class="col-sm-8 col-md-8 col-lg-8">
                 <div class="panel panel-default" id="fractal-panel">
@@ -178,8 +156,9 @@ Your browser does not support the HTML5 canvas tag.</canvas> -->
                         <form>
                             <div class="form-group">
                                 <div style="margin-bottom:5px">
-                                    Zoom Panel - Click to Zoom!
-                                    <button id="reset-button" class="btn-sm" type="button" (click)="handleResetClick($event)">Reset</button>&nbsp;
+                                  
+                                    <span class="text-info">Zoom Panel - Click to Zoom!</span>
+                                    <button id="reset-button" class="btn-sm fractal-element2" type="button" (click)="handleResetClick($event)">Reset</button>&nbsp;
 
                                     <label *ngIf="computing" class="label label-success">Computing</label>
                                 </div>
@@ -191,48 +170,81 @@ Your browser does not support the HTML5 canvas tag.</canvas> -->
                         <canvas id="fractal-image" width="512" height="512" style="border:1px solid #d3d3d3;text-align:center;cursor:crosshair" (click)='onFractalImageClicked($event)'></canvas>
                         <!-- <div><img alt="" class="img-circle"  width="512" height="512" id="fractal-image" src="" style="text-align:center;cursor:crosshair" (click)='onFractalImageClicked($event)'></div> -->
                     </div>
+                    <div class="panel-heading">
+                        <form class="form-inline">
+                            <div class="form-group">
+                                <table width="100%">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+
+                                                <span class="text-info ">x-left:</span>
+                                                <input id="region_x_input" type="number" class="form-control-plaintext fractal-element2" (keydown)="handleKeyDownRegion($event)" [ngModelOptions]="{standalone: true}"
+                                                    [(ngModel)]="region.x">
+                                            </td>
+                                            <td>
+
+                                                <span class="text-info ">y-top:</span>
+                                                <input id="region_y_input" type="number" class="form-control-plaintext fractal-element2" (keydown)="handleKeyDownRegion($event)" [ngModelOptions]="{standalone: true}"
+                                                    [(ngModel)]="region.y">
+                                            </td>
+
+                                            <td>
+                                                <span class="text-info ">dims:</span>
+                                                <input id="region_dim_input" type="number" class="form-control-plaintext fractal-element2" (keydown)="handleKeyDownRegion($event)" [ngModelOptions]="{standalone: true}"
+                                                    [(ngModel)]="region.width">
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
+
     </div>
+</div>
 
 
-    <div class="container">
-        <div class="panel panel-default">
-            <div class="row">
-                <div class="col-sm-12 col-md-12 col-lg-12">
-                    <!-- Start of FB Code -->
-                    <div class=" fb-like" data-action="like" data-href="http://fractalscope.herokuapp.com" data-layout="button_count" data-share="true"
-                        data-show-faces="true">
-                    </div>
+<div class="container">
+    <div class="panel panel-default">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <!-- Start of FB Code -->
+                <div class=" fb-like" data-action="like" data-href="http://fractalscope.herokuapp.com" data-layout="button_count" data-share="true"
+                    data-show-faces="true">
                 </div>
             </div>
-            <div class="row">
-                <div class="col-sm-12 col-md-12 col-lg-12">
-                    <script src="//platform.linkedin.com/in.js" type="text/javascript"> lang: en_US</script>
-                    <script type="IN/Share" data-url="http://fractalscope.herokuapp.com" data-counter="right"></script>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <script src="//platform.linkedin.com/in.js" type="text/javascript"> lang: en_US</script>
+                <script type="IN/Share" data-url="http://fractalscope.herokuapp.com" data-counter="right"></script>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <div>
+                    <script src="https://apis.google.com/js/platform.js" async defer data-href="http://fractalscope.herokuapp.com"></script>
+                    <!-- <g:plus action="share"></g:plus> -->
                 </div>
             </div>
+        </div>
 
-            <div class="row">
-                <div class="col-sm-12 col-md-12 col-lg-12">
-                    <div>
-                        <script src="https://apis.google.com/js/platform.js" async defer data-href="http://fractalscope.herokuapp.com"></script>
-                        <!-- <g:plus action="share"></g:plus> -->
-                    </div>
-                </div>
-            </div>
-
-            <p></p>
-            <!-- Start of SimpleHitCounter Code -->
-            <div class="row">
-                <div class="col-sm-12 col-md-12 col-lg-12">
-                    <img alt="web counter" border="0" height="18" src="http://simplehitcounter.com/hit.php?uid=1991956&f=16777215&b=0" width="83"> visits
-                </div>
+        <p></p>
+        <!-- Start of SimpleHitCounter Code -->
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <img alt="web counter" border="0" height="18" src="http://simplehitcounter.com/hit.php?uid=1991956&f=16777215&b=0" width="83"> visits
             </div>
         </div>
     </div>
 </div>
+
 
 <!-- set up the modal to start hidden and fade in and out -->
 <div id="myModal" class="modal fade">
@@ -247,7 +259,7 @@ Your browser does not support the HTML5 canvas tag.</canvas> -->
                 <br>
                 <br>
                 <!-- Start of FB Code -->
-                <div class=" fb-like" data-action="like" data-href="http://fractalscope.herokuapp.com" data-layout="button_count" data-share="true"
+                <div class=" fb-like" data-action="like" data-href="http://fscope.herokuapp.com" data-layout="button_count" data-share="true"
                     data-show-faces="true">
                 </div>
             </div>
